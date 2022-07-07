@@ -1,0 +1,24 @@
+version: "3"
+services:
+  app:
+    build: ./php
+    container_name: Web
+    restart: always
+    ports:
+      - "8080:80"
+    volumes:
+      - ./www:/var/www/html
+      - ./php/php.ini:/usr/local/etc/php/php.ini
+
+  database:
+    image: "mongo"
+    container_name: "mongoDB"
+    environment:
+      - MONGO_INITDB_DATABASE=ptw
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password1111
+    restart: always
+    volumes:
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    ports:
+      - "27014-27016:27017-27019"
